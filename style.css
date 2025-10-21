@@ -1,0 +1,18 @@
+#loadingOverlay {
+    /*as linhas abaixo garantem que o elemento ocupe 100% do espaço da tela*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /*fundo branco semi-transparente*/
+    background-color: rgba(255, 255, 255, 0.8);
+    /*posiciona o spinner acima de todos os outros elementos html*/
+    z-index: 9999;
+}
+
+.spinner-border {
+    /*aumenta o tamanho do spinner*/
+    width: 100px;
+    height: 100px;
+}
