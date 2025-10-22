@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+DE+SAS:wght@100..400&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 #loadingOverlay {
     /*as linhas abaixo garantem que o elemento ocupe 100% do espaço da tela*/
     position: fixed;
@@ -15,4 +16,24 @@
     /*aumenta o tamanho do spinner*/
     width: 100px;
     height: 100px;
+}
+
+body {
+    background-color: violet;
+}
+h1 {
+    font-family: "Playwrite DE SAS", cursive;
+}
+
+input[type="text"], select {
+    background-color:mediumvioletred !important;
+    border: 1px solid purple !important;
+    color:black !important;
+}
+
+input[type="text"]::placeholder {
+    color:black;
+}
+label {
+    color:indigo;
 }
