@@ -8,9 +8,12 @@ const txt_rua = document.querySelector("#rua");
 const txt_num = document.querySelector("#numero");
 const txt_cidade = document.querySelector("#cidade");
 const txt_bairro = document.querySelector("#bairro");
+const txt_complemento = document.querySelectorAll("#complemento");
 const slt_estado = document.querySelector("#estado");
 
 const loadingOverlay = document.querySelector("#loadingOverlay");
+
+const err_cep = document.querySelector("#cep-erro");
 
 // ----------------------------------------------------------------------
 // 2. Funções de Lógica
@@ -18,6 +21,11 @@ const loadingOverlay = document.querySelector("#loadingOverlay");
 
 
 function consultaCEP() {
+    /*limpa e habilita os campos caso tenham sido desabilitados
+    exemplo: usuario digitou u cep de uma cidade e dps de dois irmaos
+    sem essa funçao, os campos nao preenchidos (rua, etc) continuam preenchidos com os dados anteriores */
+    limpaCampos();
+    
     let cep= txt_cep.value;
     if (cep.match(/^\d{5}-?\d{3}$/)) {
         // uma api permite que a gente obtenha informaçoes
@@ -28,11 +36,9 @@ function consultaCEP() {
         
         //remove o traço da variavel
         cep= cep.replace("-","");
-
-        /*limpa e habilita os campos caso tenham sido desabilitados
-        exemplo: usuario digitou u cep de uma cidade e dps de dois irmaos
-        sem essa funçao, os campos nao preenchidos (rua, etc) continuam preenchidos com os dados anteriores */
-        limpaCampos();
+        
+        
+        
         
         //exibe o spinner carregando
         loadingOverlay.classList.add('d-flex');
@@ -61,24 +67,32 @@ function consultaCEP() {
                 txt_cep.classList.remove("is-invalid");
                 
                 if(jsonResponse.logradouro !== "") {
-                txt_rua.value = jsonResponse.logradouro;
-                txt_rua.disabled = true;
+                    txt_rua.value = jsonResponse.logradouro;
+                    txt_rua.disabled = true;
                 }
                 if(jsonResponse.localidade !== "") {
-                txt_cidade.value = jsonResponse.localidade;
-                txt_cidade.disabled = true;
+                    txt_cidade.value = jsonResponse.localidade;
+                    txt_cidade.disabled = true;
                 }
                 if(jsonResponse.bairro !== "") {
-                txt_bairro.value = jsonResponse.bairro;
-                txt_bairro.disabled = true;
+                    txt_bairro.value = jsonResponse.bairro;
+                    txt_bairro.disabled = true;
                 }
                 if(jsonResponse.uf !== "") {
-                slt_estado.value = jsonResponse.uf;
-                slt_estado.disabled = true;
+                    slt_estado.value = jsonResponse.uf;
+                    slt_estado.disabled = true;
                 }
             }
             
         })
+        .catch(error => {
+            loadingOverlay.classList.add('d-none');
+            loadingOverlay.classList.remove('d-flex');
+            
+            err_cep.innerHTML = "Falha na consulta ao CEP.\
+    <a href='#' onclick='consultaCEP()'>Tentar novamente?</a>";
+            txt_cep.classList.add("is-invalid");
+        });
         
         
     }
@@ -87,16 +101,18 @@ function consultaCEP() {
 function limpaCampos() {
     txt_rua.value = "";
     txt_cidade.value = "";
+    txt_num.value = "";
     txt_bairro.value = "";
+    txt_complemento.value = "";
     slt_estado.value = "";
-
+    
     txt_rua.disabled = false;
     txt_cidade.disabled = false;
     txt_bairro.disabled = false;
     slt_estado.disabled = false;
-
-
-
+    
+    
+    
 }
 
 // ----------------------------------------------------------------------
